@@ -9,12 +9,19 @@ function AddPlayer() {
 
   const handleKeyUp = (event: any) => {
     if (event && event.keyCode === KEYCODE.ENTER) {
-      setPlayers([...players, inputValue]);
-      setInputValue("");
+      addPlayer();
     }
     if (event && event.keyCode === KEYCODE.ESCAPE) {
       setInputValue("");
     }
+  };
+
+  const addPlayer = () => {
+    const newPlayer = inputValue.trim();
+    if (newPlayer.length > 0) {
+      setPlayers([...players, newPlayer]);
+    }
+    setInputValue("");
   };
 
   return (
@@ -27,14 +34,7 @@ function AddPlayer() {
           onChange={({ target }) => setInputValue(target.value)}
           onKeyUp={handleKeyUp}
         />
-        <button
-          onClick={() => {
-            setPlayers([...players, inputValue]);
-            setInputValue("");
-          }}
-        >
-          Add
-        </button>
+        <button onClick={addPlayer}>Add</button>
       </div>
       {players.length > 0 && (
         <div>
