@@ -1,16 +1,18 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 
 interface GameContextProps {
   players: string[];
-  isGameInProgress: boolean;
   addPlayers: Function;
+  resetPlayers: Function;
+  isGameInProgress: boolean;
   setIsGameInProgress: Function;
 }
 
 export const GameContext = createContext<GameContextProps>({
   players: [],
-  isGameInProgress: false,
   addPlayers: () => {},
+  resetPlayers: () => {},
+  isGameInProgress: false,
   setIsGameInProgress: () => {},
 });
 
@@ -26,13 +28,25 @@ const GameContextProvider: React.FC<GameContextProviderProps> = ({
     setPlayers([...players, ...newPlayers]);
   };
 
+  const resetPlayers = () => {
+    setPlayers([]);
+  };
+
   return (
     <GameContext.Provider
-      value={{ players, isGameInProgress, addPlayers, setIsGameInProgress }}
+      value={{
+        players,
+        addPlayers,
+        resetPlayers,
+        isGameInProgress,
+        setIsGameInProgress,
+      }}
     >
       {children}
     </GameContext.Provider>
   );
 };
+
+export const useGameContext = () => useContext(GameContext);
 
 export default GameContextProvider;
