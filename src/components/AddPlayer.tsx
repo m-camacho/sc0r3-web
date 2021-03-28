@@ -1,10 +1,29 @@
 import "./AddPlayer.scss";
 
 import React, { useState } from "react";
+import { KEYCODE } from "./constants";
+import { useGameContext } from "../context/GameContext";
 
 function AddPlayer() {
   const [inputValue, setInputValue] = useState("");
-  const [players, setPlayers] = useState<string[]>([]);
+  const gameContext = useGameContext();
+
+  const handleKeyUp = (event: any) => {
+    if (event && event.keyCode === KEYCODE.ENTER) {
+      addPlayer();
+    }
+    if (event && event.keyCode === KEYCODE.ESCAPE) {
+      setInputValue("");
+    }
+  };
+
+  const addPlayer = () => {
+    const newPlayer = inputValue.trim();
+    if (newPlayer.length > 0) {
+      gameContext.addPlayers([newPlayer]);
+    }
+    setInputValue("");
+  };
 
   return (
     <div className="mc-add-player">
@@ -14,24 +33,20 @@ function AddPlayer() {
           type="text"
           value={inputValue}
           onChange={({ target }) => setInputValue(target.value)}
+          onKeyUp={handleKeyUp}
         />
-        <button
-          onClick={() => {
-            setPlayers([...players, inputValue]);
-          }}
-        >
-          Add
-        </button>
+        <button onClick={addPlayer}>Add</button>
       </div>
-      {players.length > 0 && (
+      {gameContext.players.length > 0 && (
         <div>
-          <code>{players.join(", ")}</code>
+          <code>{gameContext.players.join(", ")}</code>
         </div>
       )}
       <div>
         <button
+          className="start-game-button"
           onClick={() => {
-            console.log(players);
+            alert(gameContext.players.toString());
           }}
         >
           Start Game
