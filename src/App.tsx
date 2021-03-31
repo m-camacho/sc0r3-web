@@ -1,19 +1,23 @@
 import "./App.scss";
 
 import React from "react";
-import GameContextProvider from "./context/GameContext";
 import AddPlayer from "./components/AddPlayer";
+import { useGameContext } from "./context/GameContext";
 
 function App() {
+  const gameContext = useGameContext();
+
   return (
-    <GameContextProvider>
-      <div className="App">
-        <header className="App-header">
-          <p>Welcome to sc0r3!</p>
+    <div className="App">
+      <header className="App-header">
+        <p>Welcome to sc0r3!</p>
+        {gameContext.isGameInProgress ? (
+          <code>{gameContext.players.join(", ")}</code>
+        ) : (
           <AddPlayer />
-        </header>
-      </div>
-    </GameContextProvider>
+        )}
+      </header>
+    </div>
   );
 }
 

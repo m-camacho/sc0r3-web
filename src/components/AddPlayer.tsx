@@ -46,7 +46,7 @@ function AddPlayer() {
         <button
           className="start-game-button"
           onClick={() => {
-            alert(gameContext.players.toString());
+            gameContext.setIsGameInProgress(true);
           }}
         >
           Start Game

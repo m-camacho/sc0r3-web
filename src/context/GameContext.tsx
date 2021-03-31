@@ -18,7 +18,7 @@ export const GameContext = createContext<GameContextProps>({
 
 interface GameContextProviderProps {}
 
-const GameContextProvider: React.FC<GameContextProviderProps> = ({
+export const GameContextProvider: React.FC<GameContextProviderProps> = ({
   children,
 }) => {
   const [players, setPlayers] = useState<string[]>([]);
@@ -48,5 +48,3 @@ const GameContextProvider: React.FC<GameContextProviderProps> = ({
 };
 
 export const useGameContext = () => useContext(GameContext);
-
-export default GameContextProvider;
